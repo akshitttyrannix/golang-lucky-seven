@@ -1,15 +1,16 @@
 package main
 
 import (
-	"fmt"
-
+	"gamesanct.com/lucky-seven/config/database"
+	"gamesanct.com/lucky-seven/config/env"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	fmt.Println("Hello, World!!")
+	uri, dbName, port := env.GetEnv()
+	database.Connect(uri, dbName)
 
 	server := gin.Default()
 
-	server.Run(":8080")
+	server.Run(":" + port)
 }
