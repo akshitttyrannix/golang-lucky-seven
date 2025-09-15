@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"gamesanct.com/lucky-seven/common"
 	"github.com/joho/godotenv"
 )
 
@@ -13,13 +14,26 @@ func GetEnv() (string, string, string) {
 		log.Fatal("Error loading .env file")
 	}
 
-	uri := os.Getenv("DATABASE_URL")
-	dbName := os.Getenv("DATABASE_NAME")
-	port := os.Getenv("PORT")
+	dbUrl := os.Getenv(common.DOT_ENV_URL)
+	dbName := os.Getenv(common.DOT_ENV_DB_NAME)
+	port := os.Getenv(common.DOT_ENV_PORT)
+	nodeEnv := os.Getenv(common.DOT_ENV_NODE_ENV)
 
-	if uri == "" || dbName == "" || port == "" {
-		log.Fatal("DATABASE_URL, DATABASE_NAME or PORT environment variable is not set")
+	if dbUrl == "" {
+		log.Fatal(common.DOT_ENV_URL + " environment variable is not set")
 	}
 
-	return uri, dbName, port
+	if dbName == "" {
+		log.Fatal(common.DOT_ENV_DB_NAME + " environment variable is not set")
+	}
+
+	if port == "" {
+		log.Fatal(common.DOT_ENV_PORT + " environment variable is not set")
+	}
+
+	if nodeEnv == "" {
+		log.Fatal(common.DOT_ENV_NODE_ENV + " environment variable is not set")
+	}
+
+	return dbUrl, dbName, port
 }

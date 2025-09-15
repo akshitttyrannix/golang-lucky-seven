@@ -21,10 +21,14 @@ func CreateSetting(c *gin.Context) {
 	setting.CreatedAt = time.Now().Unix()
 	setting.UpdatedAt = time.Now().Unix()
 
-	if err := create(&setting); err != nil {
+	if err := Create(&setting); err != nil {
 		error.SomethingWentWrong(c, err)
 		return
 	}
 
 	success.Success(c, messages.SETTING_CREATED, setting)
+}
+
+func GetSetting(c *gin.Context) {
+
 }
