@@ -10,10 +10,10 @@ import (
 	"github.com/google/uuid"
 )
 
-func CreateSetting(c *gin.Context) {
+func CreateSetting(ctx *gin.Context) {
 	var setting Setting
-	if err := c.ShouldBindJSON(&setting); err != nil {
-		error.BadRequest(c, err)
+	if err := ctx.ShouldBindJSON(&setting); err != nil {
+		error.BadRequest(ctx, err)
 		return
 	}
 
@@ -22,13 +22,9 @@ func CreateSetting(c *gin.Context) {
 	setting.UpdatedAt = time.Now().Unix()
 
 	if err := Create(&setting); err != nil {
-		error.SomethingWentWrong(c, err)
+		error.SomethingWentWrong(ctx, err)
 		return
 	}
 
-	success.Success(c, messages.SETTING_CREATED, setting)
-}
-
-func GetSetting(c *gin.Context) {
-
+	success.Success(ctx, messages.SETTING_CREATED, setting)
 }

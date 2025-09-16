@@ -26,7 +26,7 @@ var pauseTimer int16
 var roundID string
 var displayID string
 
-var roundCount int64
+var roundCount int16
 
 var newDeck deck.Deck
 var card deck.Card
