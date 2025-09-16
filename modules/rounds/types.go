@@ -6,7 +6,7 @@ type Round struct {
 	GameID        string `bson:"game_id" json:"game_id"`
 	GameName      string `bson:"game_name" json:"game_name"`
 	Result        any    `bson:"result" json:"result"`
-	Status        string `bson:"status" json:"status"`
+	State         string `bson:"state" json:"state"`
 	StartTime     int64  `bson:"start_time" json:"start_time"`
 	EndTime       int64  `bson:"end_time" json:"end_time"`
 	Odds          any    `bson:"odds" json:"odds"`

@@ -33,6 +33,15 @@ func Create(round *Round) error {
 
 }
 
+func Update(round *Round) error {
+	coll := getRoundsCollection()
+	if _, err := coll.UpdateOne(context.Background(), bson.M{"round_id": round.RoundID}, bson.M{"$set": round}); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func GetTodaysRoundCount() int64 {
 	coll := getRoundsCollection()
 
