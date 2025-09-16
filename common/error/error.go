@@ -6,44 +6,40 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BadRequest(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusBadRequest, gin.H{
+func errJSON(ctx *gin.Context, err error, status int) {
+	ctx.JSON(status, gin.H{
 		"message": err.Error(),
 		"status":  0,
 	})
+}
+
+func errAbortWithStatusJSON(ctx *gin.Context, err error, status int) {
+	ctx.AbortWithStatusJSON(status, gin.H{
+		"message": err.Error(),
+		"status":  0,
+	})
+}
+
+func BadRequest(ctx *gin.Context, err error) {
+	errJSON(ctx, err, http.StatusBadRequest)
 }
 
 func NotFound(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusNotFound, gin.H{
-		"message": err.Error(),
-		"status":  0,
-	})
+	errJSON(ctx, err, http.StatusNotFound)
 }
 
 func SomethingWentWrong(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusInternalServerError, gin.H{
-		"message": err.Error(),
-		"status":  0,
-	})
+	errJSON(ctx, err, http.StatusInternalServerError)
 }
 
 func Unauthorized(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusUnauthorized, gin.H{
-		"message": err.Error(),
-		"status":  0,
-	})
+	errJSON(ctx, err, http.StatusUnauthorized)
 }
 
 func UnprocessableEntity(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusUnprocessableEntity, gin.H{
-		"message": err.Error(),
-		"status":  0,
-	})
+	errJSON(ctx, err, http.StatusUnprocessableEntity)
 }
 
 func Abort(ctx *gin.Context, err error) {
-	ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-		"message": err.Error(),
-		"status":  0,
-	})
+	errAbortWithStatusJSON(ctx, err, http.StatusUnauthorized)
 }

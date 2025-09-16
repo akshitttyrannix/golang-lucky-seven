@@ -13,7 +13,8 @@ var marketsCollection *mongo.Collection
 func getMarketsCollection() *mongo.Collection {
 	if marketsCollection == nil {
 		if database.DB == nil {
-			log.Fatal("database not initialized: call database.Connect before using markets repository")
+			log.Println("database not initialized: call database.Connect before using markets repository")
+			return nil
 		}
 		marketsCollection = database.DB.Collection("markets")
 	}

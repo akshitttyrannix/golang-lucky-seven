@@ -14,7 +14,8 @@ var settingsCollection *mongo.Collection
 func getSettingsCollection() *mongo.Collection {
 	if settingsCollection == nil {
 		if database.DB == nil {
-			log.Fatal("database not initialized: call database.Connect before using settings repository")
+			log.Println("database not initialized: call database.Connect before using settings repository")
+			return nil
 		}
 		settingsCollection = database.DB.Collection("settings")
 	}

@@ -121,12 +121,14 @@ func updateRound() {
 func startRound() {
 	setting, err := settings.GetSettingByID()
 	if err != nil {
-		log.Fatal("Failed to get setting:", err)
+		log.Println("Failed to get setting:", err)
+		return
 	}
 
 	if !((GameState == GAME_STATE_INIT || GameState == GAME_STATE_END) && IsGameRunning && setting.Status == settings.SETTING_STATUS_ACTIVE) {
 		IsGameRunning = false
-		log.Fatal("Game is not running or active")
+		log.Println("Game is not running or active")
+		return
 	}
 
 	newDeck = deck.NewDeck()

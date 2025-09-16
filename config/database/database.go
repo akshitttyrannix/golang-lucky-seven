@@ -19,12 +19,14 @@ func Connect(uri string, dbName string) {
 
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Fatal("Failed to create MongoDB client:", err)
+		log.Println("Failed to create MongoDB client:", err)
+		return
 	}
 
 	err = client.Ping(ctx, nil)
 	if err != nil {
-		log.Fatal("Failed to ping MongoDB:", err)
+		log.Println("Failed to ping MongoDB:", err)
+		return
 	}
 
 	DB = client.Database(dbName)

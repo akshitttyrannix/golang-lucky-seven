@@ -16,7 +16,8 @@ var roundsCollection *mongo.Collection
 func getRoundsCollection() *mongo.Collection {
 	if roundsCollection == nil {
 		if database.DB == nil {
-			log.Fatal("database not initialized: call database.Connect before using rounds repository")
+			log.Println("database not initialized: call database.Connect before using rounds repository")
+			return nil
 		}
 		roundsCollection = database.DB.Collection("rounds")
 	}

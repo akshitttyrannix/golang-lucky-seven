@@ -11,17 +11,24 @@ import (
 )
 
 func CreateSetting(ctx *gin.Context) {
-	var setting Setting
-	if err := ctx.ShouldBindJSON(&setting); err != nil {
+	var createSettingDTO CreateSettingDTO
+	if err := ctx.ShouldBindJSON(&createSettingDTO); err != nil {
 		error.BadRequest(ctx, err)
 		return
 	}
 
-	setting.SettingID = uuid.New().String()
-	setting.CreatedAt = time.Now().Unix()
-	setting.UpdatedAt = time.Now().Unix()
+	setting := &Setting{
+		SettingID:    uuid.New().String(),
+		Status:       createSettingDTO.Status,
+		BettingTimer: createSettingDTO.BettingTimer,
+		BonusTimer:   createSettingDTO.BonusTimer,
+		ResultTimer:  createSettingDTO.ResultTimer,
+		PauseTimer:   createSettingDTO.PauseTimer,
+		CreatedAt:    time.Now().Unix(),
+		UpdatedAt:    time.Now().Unix(),
+	}
 
-	if err := Create(&setting); err != nil {
+	if err := Create(setting); err != nil {
 		error.SomethingWentWrong(ctx, err)
 		return
 	}

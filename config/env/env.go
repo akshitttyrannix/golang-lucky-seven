@@ -11,7 +11,8 @@ import (
 func GetEnv() (string, string, string) {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
+		return "", "", ""
 	}
 
 	dbUrl := os.Getenv(common.DOT_ENV_URL)
@@ -20,19 +21,23 @@ func GetEnv() (string, string, string) {
 	nodeEnv := os.Getenv(common.DOT_ENV_NODE_ENV)
 
 	if dbUrl == "" {
-		log.Fatal(common.DOT_ENV_URL + " environment variable is not set")
+		log.Println(common.DOT_ENV_URL + " environment variable is not set")
+		return "", "", ""
 	}
 
 	if dbName == "" {
-		log.Fatal(common.DOT_ENV_DB_NAME + " environment variable is not set")
+		log.Println(common.DOT_ENV_DB_NAME + " environment variable is not set")
+		return "", "", ""
 	}
 
 	if port == "" {
-		log.Fatal(common.DOT_ENV_PORT + " environment variable is not set")
+		log.Println(common.DOT_ENV_PORT + " environment variable is not set")
+		return "", "", ""
 	}
 
 	if nodeEnv == "" {
-		log.Fatal(common.DOT_ENV_NODE_ENV + " environment variable is not set")
+		log.Println(common.DOT_ENV_NODE_ENV + " environment variable is not set")
+		return "", "", ""
 	}
 
 	return dbUrl, dbName, port
