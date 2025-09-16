@@ -10,23 +10,27 @@ import (
 	"github.com/google/uuid"
 )
 
+func CreateSettingEntity(dto CreateSettingDTO) *Setting {
+	return &Setting{
+		SettingID:    uuid.New().String(),
+		Status:       dto.Status,
+		BettingTimer: dto.BettingTimer,
+		BonusTimer:   dto.BonusTimer,
+		ResultTimer:  dto.ResultTimer,
+		PauseTimer:   dto.PauseTimer,
+		CreatedAt:    uint32(time.Now().Unix()),
+		UpdatedAt:    uint32(time.Now().Unix()),
+	}
+}
+
 func CreateSetting(ctx *gin.Context) {
-	var createSettingDTO CreateSettingDTO
-	if err := ctx.ShouldBindJSON(&createSettingDTO); err != nil {
+	var dto CreateSettingDTO
+	if err := ctx.ShouldBindJSON(&dto); err != nil {
 		error.BadRequest(ctx, err)
 		return
 	}
 
-	setting := &Setting{
-		SettingID:    uuid.New().String(),
-		Status:       createSettingDTO.Status,
-		BettingTimer: createSettingDTO.BettingTimer,
-		BonusTimer:   createSettingDTO.BonusTimer,
-		ResultTimer:  createSettingDTO.ResultTimer,
-		PauseTimer:   createSettingDTO.PauseTimer,
-		CreatedAt:    uint32(time.Now().Unix()),
-		UpdatedAt:    uint32(time.Now().Unix()),
-	}
+	setting := CreateSettingEntity(dto)
 
 	if err := Create(setting); err != nil {
 		error.SomethingWentWrong(ctx, err)
