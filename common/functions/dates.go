@@ -2,21 +2,21 @@ package functions
 
 import "time"
 
-func GetStartOfDay() int64 {
+func GetStartOfDay() uint32 {
 	now := time.Now()
 	startOfDay := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	return startOfDay.Unix()
+	return uint32(startOfDay.Unix())
 }
 
-func GetEndOfDay() int64 {
+func GetEndOfDay() uint32 {
 	now := time.Now()
 	endOfDay := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
-	return endOfDay.Unix()
+	return uint32(endOfDay.Unix())
 }
 
-func GetToday() int64 {
+func GetToday() uint32 {
 	now := time.Now()
-	return int64(now.Day())
+	return uint32(now.Day())
 }
 
 func GetDateFormatted() string {
@@ -24,7 +24,7 @@ func GetDateFormatted() string {
 	return now.Format("020106")
 }
 
-func CurrentTime() int64 {
+func CurrentTime() uint32 {
 	now := time.Now()
-	return int64(now.Unix())
+	return uint32(now.Unix())
 }

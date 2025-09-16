@@ -43,7 +43,7 @@ func Update(round *Round) error {
 	return nil
 }
 
-func GetTodaysRoundCount() int16 {
+func GetTodaysRoundCount() uint16 {
 	coll := getRoundsCollection()
 
 	filter := bson.M{
@@ -61,12 +61,12 @@ func GetTodaysRoundCount() int16 {
 
 	// Extract the last 5 characters from display_id and convert to int64
 	displayIDSuffix := latestRound.DisplayID[len(latestRound.DisplayID)-5:]
-	count := int16(0)
+	count := uint16(0)
 
 	// Parse the suffix to get the count
 	for _, char := range displayIDSuffix {
 		if char >= '0' && char <= '9' {
-			count = count*10 + int16(char-'0')
+			count = count*10 + uint16(char-'0')
 		}
 	}
 

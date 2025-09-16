@@ -18,20 +18,20 @@ import (
 var GameState = GAME_STATE_INIT
 var IsGameRunning = false
 
-var bettingTimer int16
-var bonusTimer int16
-var resultTimer int16
-var pauseTimer int16
+var bettingTimer uint16
+var bonusTimer uint16
+var resultTimer uint16
+var pauseTimer uint16
 
 var roundID string
 var displayID string
 
-var roundCount int16
+var roundCount uint16
 
 var newDeck deck.Deck
 var card deck.Card
 
-var today int64
+var today uint32
 
 var activeMarkets []string
 
@@ -148,9 +148,9 @@ func startRound() {
 }
 
 func runBettingTimer() {
-	if bettingTimer > -1 && GameState == GAME_STATE_BETTING {
-		time.Sleep(time.Second)
+	if bettingTimer > 0 && GameState == GAME_STATE_BETTING {
 		log.Println("Betting timer: " + strconv.Itoa(int(bettingTimer)))
+		time.Sleep(time.Second)
 		bettingTimer -= 1
 		runBettingTimer()
 	} else {
@@ -161,9 +161,9 @@ func runBettingTimer() {
 }
 
 func runBonusTimer() {
-	if bonusTimer > -1 && GameState == GAME_STATE_BONUS {
-		time.Sleep(time.Second)
+	if bonusTimer > 0 && GameState == GAME_STATE_BONUS {
 		log.Println("Bonus timer: " + strconv.Itoa(int(bonusTimer)))
+		time.Sleep(time.Second)
 		bonusTimer -= 1
 		runBonusTimer()
 	} else {
@@ -180,9 +180,9 @@ func runBonusTimer() {
 }
 
 func runResultTimer() {
-	if resultTimer > -1 && GameState == GAME_STATE_RESULT {
-		time.Sleep(time.Second)
+	if resultTimer > 0 && GameState == GAME_STATE_RESULT {
 		log.Println("Result timer: " + strconv.Itoa(int(resultTimer)))
+		time.Sleep(time.Second)
 		resultTimer -= 1
 		runResultTimer()
 	} else {
@@ -193,9 +193,9 @@ func runResultTimer() {
 }
 
 func runPauseTimer() {
-	if pauseTimer > -1 && GameState == GAME_STATE_PAUSE {
-		time.Sleep(time.Second)
+	if pauseTimer > 0 && GameState == GAME_STATE_PAUSE {
 		log.Println("Pause timer: " + strconv.Itoa(int(pauseTimer)))
+		time.Sleep(time.Second)
 		pauseTimer -= 1
 		runPauseTimer()
 	} else {

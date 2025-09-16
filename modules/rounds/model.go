@@ -7,17 +7,17 @@ type Round struct {
 	GameName      string `bson:"game_name" json:"game_name"`
 	Result        any    `bson:"result" json:"result"`
 	State         string `bson:"state" json:"state"`
-	StartTime     int64  `bson:"start_time" json:"start_time"`
-	EndTime       int64  `bson:"end_time" json:"end_time"`
+	StartTime     uint32 `bson:"start_time" json:"start_time"`
+	EndTime       uint32 `bson:"end_time" json:"end_time"`
 	Odds          any    `bson:"odds" json:"odds"`
 	HasBet        bool   `bson:"has_bet" json:"has_bet"`
-	BetPlaceCount int16  `bson:"bet_place_count" json:"bet_place_count"`
-	BetAmount     int16  `bson:"bet_amount" json:"bet_amount"`
-	Profit        int16  `bson:"profit" json:"profit"`
-	CreatedAt     int64  `bson:"created_at" json:"created_at"`
+	BetPlaceCount uint16 `bson:"bet_place_count" json:"bet_place_count"`
+	BetAmount     uint16 `bson:"bet_amount" json:"bet_amount"`
+	Profit        uint16 `bson:"profit" json:"profit"`
+	CreatedAt     uint32 `bson:"created_at" json:"created_at"`
 	UpdatedBy     string `bson:"updated_by" json:"updated_by"`
-	UpdatedAt     int64  `bson:"updated_at" json:"updated_at"`
-	DeletedAt     int64  `bson:"deleted_at" json:"deleted_at"`
+	UpdatedAt     uint32 `bson:"updated_at" json:"updated_at"`
+	DeletedAt     uint32 `bson:"deleted_at" json:"deleted_at"`
 	DeletedBy     string `bson:"deleted_by" json:"deleted_by"`
 	IsDeleted     bool   `bson:"is_deleted" json:"is_deleted"`
 	Markets       any    `bson:"markets" json:"markets"`

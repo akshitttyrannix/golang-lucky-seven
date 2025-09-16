@@ -24,8 +24,8 @@ func CreateSetting(ctx *gin.Context) {
 		BonusTimer:   createSettingDTO.BonusTimer,
 		ResultTimer:  createSettingDTO.ResultTimer,
 		PauseTimer:   createSettingDTO.PauseTimer,
-		CreatedAt:    time.Now().Unix(),
-		UpdatedAt:    time.Now().Unix(),
+		CreatedAt:    uint32(time.Now().Unix()),
+		UpdatedAt:    uint32(time.Now().Unix()),
 	}
 
 	if err := Create(setting); err != nil {
