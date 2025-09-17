@@ -23,3 +23,31 @@ func CreateSetting(ctx *gin.Context) {
 
 	success.Success(ctx, messages.SETTING_CREATED, setting)
 }
+
+func StartGame(ctx *gin.Context) {
+	setting := &Setting{
+		SettingID: SETTING_ID,
+		Status:    SETTING_STATUS_ACTIVE,
+	}
+
+	if err := UpdateOne(setting); err != nil {
+		customerror.SomethingWentWrong(ctx, err)
+		return
+	}
+
+	success.Success(ctx, messages.SETTING_STARTED, nil)
+}
+
+func StopGame(ctx *gin.Context) {
+	setting := &Setting{
+		SettingID: SETTING_ID,
+		Status:    SETTING_STATUS_INACTIVE,
+	}
+
+	if err := UpdateOne(setting); err != nil {
+		customerror.SomethingWentWrong(ctx, err)
+		return
+	}
+
+	success.Success(ctx, messages.SETTING_STOPPED, nil)
+}

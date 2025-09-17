@@ -34,8 +34,16 @@ func Create(setting *Setting) error {
 func GetSettingByID() (*Setting, error) {
 	coll := getSettingsCollection()
 	var setting Setting
-	if err := coll.FindOne(context.Background(), bson.M{"setting_id": "6b86493e-7549-480c-8df2-510c9e4b0715"}).Decode(&setting); err != nil {
+	if err := coll.FindOne(context.Background(), bson.M{"setting_id": SETTING_ID}).Decode(&setting); err != nil {
 		return nil, err
 	}
 	return &setting, nil
+}
+
+func UpdateOne(setting *Setting) error {
+	coll := getSettingsCollection()
+	if _, err := coll.UpdateOne(context.Background(), bson.M{"setting_id": setting.SettingID}, bson.M{"$set": setting}); err != nil {
+		return err
+	}
+	return nil
 }

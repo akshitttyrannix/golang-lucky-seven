@@ -7,3 +7,8 @@ const (
 const (
 	MARKET_CREATED = "Market created successfully"
 )
+
+const (
+	SETTING_STOPPED = "Setting stopped successfully"
+	SETTING_STARTED = "Setting started successfully"
+)
