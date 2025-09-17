@@ -1,7 +1,7 @@
 package settings
 
 import (
-	"gamesanct.com/lucky-seven/common/error"
+	"gamesanct.com/lucky-seven/common/customerror"
 	"gamesanct.com/lucky-seven/common/messages"
 	"gamesanct.com/lucky-seven/common/success"
 	"github.com/gin-gonic/gin"
@@ -10,14 +10,14 @@ import (
 func CreateSetting(ctx *gin.Context) {
 	var dto CreateSettingDTO
 	if err := ctx.ShouldBindJSON(&dto); err != nil {
-		error.BadRequest(ctx, err)
+		customerror.BadRequest(ctx, err)
 		return
 	}
 
 	setting := CreateSettingEntity(dto)
 
 	if err := Create(setting); err != nil {
-		error.SomethingWentWrong(ctx, err)
+		customerror.SomethingWentWrong(ctx, err)
 		return
 	}
 

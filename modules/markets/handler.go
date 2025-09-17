@@ -3,18 +3,19 @@ package markets
 import (
 	"log"
 
-	"gamesanct.com/lucky-seven/common/error"
+	"gamesanct.com/lucky-seven/common/customerror"
 	"gamesanct.com/lucky-seven/common/messages"
 	"gamesanct.com/lucky-seven/common/success"
 	"gamesanct.com/lucky-seven/modules/marketcurrencies"
 	"gamesanct.com/lucky-seven/modules/runners"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/sync/errgroup"
 )
 
 func CreateMarket(ctx *gin.Context) {
 	var dto CreateMarketDTO
 	if err := ctx.ShouldBindJSON(&dto); err != nil {
-		error.BadRequest(ctx, err)
+		customerror.BadRequest(ctx, err)
 		return
 	}
 
@@ -30,18 +31,22 @@ func CreateMarket(ctx *gin.Context) {
 
 	marketCurrencyEntity := CreateMarketCurrencyEntity(marketEntity.MarketID, dto)
 
-	if err := Create(marketEntity); err != nil {
-		error.SomethingWentWrong(ctx, err)
-		return
-	}
+	var g errgroup.Group
 
-	if err := runners.CreateMany(runnersEntity); err != nil {
-		error.SomethingWentWrong(ctx, err)
-		return
-	}
+	g.Go(func() error {
+		return Create(marketEntity)
+	})
 
-	if err := marketcurrencies.Create(marketCurrencyEntity); err != nil {
-		error.SomethingWentWrong(ctx, err)
+	g.Go(func() error {
+		return runners.CreateMany(runnersEntity)
+	})
+
+	g.Go(func() error {
+		return marketcurrencies.Create(marketCurrencyEntity)
+	})
+
+	if err := g.Wait(); err != nil {
+		customerror.SomethingWentWrong(ctx, err)
 		return
 	}
 

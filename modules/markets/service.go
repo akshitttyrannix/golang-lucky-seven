@@ -11,29 +11,31 @@ import (
 )
 
 func CreateMarketEntity(dto CreateMarketDTO, count uint16) *Market {
+	now := uint32(time.Now().Unix())
 	return &Market{
-		MarketID:   uuid.New().String(),
+		MarketID:   uuid.NewString(),
 		MarketName: dto.MarketName,
 		Status:     MARKET_STATUS_ACTIVE,
 		Min:        dto.Min,
 		Max:        dto.Max,
 		MaxProfit:  dto.MaxProfit,
 		Sequence:   count + 1,
-		CreatedAt:  uint32(time.Now().Unix()),
-		UpdatedAt:  uint32(time.Now().Unix()),
+		CreatedAt:  now,
+		UpdatedAt:  now,
 	}
 }
 
 func CreateRunnersEntity(marketID string, dto CreateMarketDTO) []runners.Runner {
-	count, err := Count()
+	baseCount, err := runners.Count()
 	if err != nil {
 		log.Println("Error counting runners:", err)
 		return nil
 	}
 
-	runnerEntities := []runners.Runner{}
-	for _, runnerInput := range dto.Runners {
+	now := uint32(time.Now().Unix())
+	runnerEntities := make([]runners.Runner, 0, len(dto.Runners))
 
+	for i, runnerInput := range dto.Runners {
 		odds, err := helper.StringToDecimal128(runnerInput.Odds)
 		if err != nil {
 			log.Println("Error converting odds to decimal128:", err)
@@ -41,16 +43,16 @@ func CreateRunnersEntity(marketID string, dto CreateMarketDTO) []runners.Runner 
 		}
 
 		runnerEntities = append(runnerEntities, runners.Runner{
-			RunnerID:          uuid.New().String(),
+			RunnerID:          uuid.NewString(),
 			RunnerName:        runnerInput.RunnerName,
 			DisplayRunnerName: runnerInput.DisplayRunnerName,
 			Odds:              odds,
 			MarketID:          marketID,
 			MarketName:        dto.MarketName,
-			Sequence:          count + 1,
+			Sequence:          baseCount + uint16(i) + 1,
 			Status:            runners.RUNNER_STATUS_ACTIVE,
-			CreatedAt:         uint32(time.Now().Unix()),
-			UpdatedAt:         uint32(time.Now().Unix()),
+			CreatedAt:         now,
+			UpdatedAt:         now,
 		})
 	}
 
@@ -64,8 +66,9 @@ func CreateMarketCurrencyEntity(marketID string, dto CreateMarketDTO) *marketcur
 		return nil
 	}
 
+	now := uint32(time.Now().Unix())
 	return &marketcurrencies.MarketCurrency{
-		MarketCurrencyID: uuid.New().String(),
+		MarketCurrencyID: uuid.NewString(),
 		MarketID:         marketID,
 		MarketName:       dto.MarketName,
 		CurrencyCode:     marketcurrencies.CURRENCY_CODE_DEFAULT,
@@ -76,7 +79,7 @@ func CreateMarketCurrencyEntity(marketID string, dto CreateMarketDTO) *marketcur
 		BetLock:          false,
 		IsCurrencyUpdate: false,
 		Sequence:         count + 1,
-		CreatedAt:        uint32(time.Now().Unix()),
-		UpdatedAt:        uint32(time.Now().Unix()),
+		CreatedAt:        now,
+		UpdatedAt:        now,
 	}
 }
