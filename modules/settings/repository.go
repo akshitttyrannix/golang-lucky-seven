@@ -40,9 +40,9 @@ func GetSettingByID() (*Setting, error) {
 	return &setting, nil
 }
 
-func UpdateOne(setting *Setting) error {
+func UpdateFields(settingID string, fields bson.M) error {
 	coll := getSettingsCollection()
-	if _, err := coll.UpdateOne(context.Background(), bson.M{"setting_id": setting.SettingID}, bson.M{"$set": setting}); err != nil {
+	if _, err := coll.UpdateOne(context.Background(), bson.M{"setting_id": settingID}, bson.M{"$set": fields}); err != nil {
 		return err
 	}
 	return nil

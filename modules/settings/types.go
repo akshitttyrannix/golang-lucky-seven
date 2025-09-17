@@ -8,3 +8,7 @@ const (
 )
 
 const SETTING_ID = "6b86493e-7549-480c-8df2-510c9e4b0715"
+
+// OnGameStarted is an optional callback set by the games module to avoid
+// an import cycle between settings and games.
+var OnGameStarted func()

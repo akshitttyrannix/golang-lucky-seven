@@ -53,6 +53,11 @@ func InitGame() {
 	}
 }
 
+func init() {
+	// Register callback to break import cycle: settings calls this when StartGame is invoked.
+	settings.OnGameStarted = InitGame
+}
+
 func setTimers(setting *settings.Setting) {
 	log.Println("Setting timers")
 
