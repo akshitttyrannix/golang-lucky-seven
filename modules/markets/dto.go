@@ -1,9 +1,9 @@
 package markets
 
 type RunnerGet struct {
-	RunnerName        string  `json:"runner_name" binding:"required"`
-	DisplayRunnerName string  `json:"display_runner_name" binding:"required"`
-	Odds              float32 `json:"odds" binding:"required"`
+	RunnerName        string `json:"runner_name" binding:"required"`
+	DisplayRunnerName string `json:"display_runner_name" binding:"required"`
+	Odds              string `json:"odds" binding:"required"`
 }
 
 type CreateMarketDTO struct {

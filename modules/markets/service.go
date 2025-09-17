@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"gamesanct.com/lucky-seven/common/helper"
 	"gamesanct.com/lucky-seven/modules/marketcurrencies"
 	"gamesanct.com/lucky-seven/modules/runners"
 	"github.com/google/uuid"
@@ -32,11 +33,18 @@ func CreateRunnersEntity(marketID string, dto CreateMarketDTO) []runners.Runner 
 
 	runnerEntities := []runners.Runner{}
 	for _, runnerInput := range dto.Runners {
+
+		odds, err := helper.StringToDecimal128(runnerInput.Odds)
+		if err != nil {
+			log.Println("Error converting odds to decimal128:", err)
+			return nil
+		}
+
 		runnerEntities = append(runnerEntities, runners.Runner{
 			RunnerID:          uuid.New().String(),
 			RunnerName:        runnerInput.RunnerName,
 			DisplayRunnerName: runnerInput.DisplayRunnerName,
-			Odds:              runnerInput.Odds,
+			Odds:              odds,
 			MarketID:          marketID,
 			MarketName:        dto.MarketName,
 			Sequence:          count + 1,
