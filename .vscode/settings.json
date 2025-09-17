@@ -5,7 +5,10 @@
     "gamsanct",
     "godotenv",
     "gonic",
+    "gorm",
     "joho",
+    "marketcurrencies",
+    "marketcurrency",
     "tcetq"
   ]
 }

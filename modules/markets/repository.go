@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"gamesanct.com/lucky-seven/config/database"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -28,4 +29,15 @@ func Create(round *Market) error {
 	}
 
 	return nil
+}
+
+func Count() (uint16, error) {
+	coll := getMarketsCollection()
+
+	count, err := coll.CountDocuments(context.Background(), bson.M{"is_deleted": false})
+	if err != nil {
+		return 0, err
+	}
+
+	return uint16(count), nil
 }

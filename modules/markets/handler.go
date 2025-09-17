@@ -1,9 +1,13 @@
 package markets
 
 import (
+	"log"
+
 	"gamesanct.com/lucky-seven/common/error"
 	"gamesanct.com/lucky-seven/common/messages"
 	"gamesanct.com/lucky-seven/common/success"
+	"gamesanct.com/lucky-seven/modules/marketcurrencies"
+	"gamesanct.com/lucky-seven/modules/runners"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,12 +18,32 @@ func CreateMarket(ctx *gin.Context) {
 		return
 	}
 
-	market := CreateMarketEntity(dto)
+	count, err := Count()
+	if err != nil {
+		log.Println("Error counting markets:", err)
+		return
+	}
 
-	if err := Create(market); err != nil {
+	marketEntity := CreateMarketEntity(dto, count)
+
+	runnersEntity := CreateRunnersEntity(marketEntity.MarketID, dto)
+
+	marketCurrencyEntity := CreateMarketCurrencyEntity(marketEntity.MarketID, dto)
+
+	if err := Create(marketEntity); err != nil {
 		error.SomethingWentWrong(ctx, err)
 		return
 	}
 
-	success.Success(ctx, messages.MARKET_CREATED, market)
+	if err := runners.CreateMany(runnersEntity); err != nil {
+		error.SomethingWentWrong(ctx, err)
+		return
+	}
+
+	if err := marketcurrencies.Create(marketCurrencyEntity); err != nil {
+		error.SomethingWentWrong(ctx, err)
+		return
+	}
+
+	success.Success(ctx, messages.MARKET_CREATED, marketEntity)
 }
